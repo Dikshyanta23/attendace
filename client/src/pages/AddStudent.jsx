@@ -11,21 +11,11 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   try {
-    const { name, phoneNumber, belt, image } = data;
-    const imageFormData = new FormData();
-    imageFormData.append("image", image);
-    //submit the data and get response
-    const imageObj = await customFetch.post(
-      "/students/uploadImage",
-      imageFormData
-    );
-
-    const imagePath = imageObj?.data?.image?.src;
+    const { name, phoneNumber, belt } = data;
     const ultimateFormData = new FormData();
     ultimateFormData.append("name", name);
     ultimateFormData.append("phoneNumber", phoneNumber);
     ultimateFormData.append("belt", belt);
-    ultimateFormData.append("image", imagePath);
 
     if (String(phoneNumber).length !== 10) {
       toast.error("Enter proper phone number");
@@ -61,12 +51,6 @@ const AddStudent = () => {
             name="belt"
             list={Object.values(BELT)}
             defaultValue={BELT.WHITE}
-          />
-          <FormRow
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleFileChange}
           />
           <SubmitBtn formBtn />
         </div>
