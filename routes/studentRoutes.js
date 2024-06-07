@@ -11,7 +11,6 @@ const {
   createStudent,
   updateStudent,
   deleteStudent,
-  uploadPicture,
 } = require("../controllers/studentController");
 
 const checkPermissions = require("../utils/checkPermissions");
@@ -25,7 +24,5 @@ router
   .get(authenticateUser, getSingleStudent)
   .patch(authenticateUser, authorizePermissions("admin"), updateStudent)
   .delete(authenticateUser, authorizePermissions("admin"), deleteStudent);
-
-router.route("/uploadImage").post(authenticateUser, uploadPicture);
 
 module.exports = router;
