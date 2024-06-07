@@ -4,13 +4,10 @@ import Wrapper from "../assets/wrappers/Job";
 import StudentInfo from "./StudentInfo";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 
-const Student = ({ _id, name, phoneNumber, belt, image }) => {
+const Student = ({ _id, name, phoneNumber, belt }) => {
   return (
     <Wrapper>
       <header>
-        <div className="main-icon">
-          <img src={image} style={{ height: "70px", width: "70px" }} />
-        </div>
         <div className="info">
           <h5>
             <strong>{name}</strong>
