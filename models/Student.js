@@ -22,10 +22,6 @@ const studentSchema = new mongoose.Schema(
         message: "{{Value}} is not supported",
       },
     },
-    image: {
-      type: String,
-      default: "/uploads/example.jpeg",
-    },
   },
   { timestamps: true }
 );
