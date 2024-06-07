@@ -77,23 +77,10 @@ const deleteStudent = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Student deleted" });
 };
 
-const uploadPicture = async (req, res) => {
-  const result = await cloudinary.uploader.upload(
-    req.files.image.tempFilePath,
-    {
-      use_filename: true,
-      folder: "attendance",
-    }
-  );
-  fs.unlinkSync(req.files.image.tempFilePath);
-  return res.status(StatusCodes.OK).json({ image: { src: result.url } });
-};
-
 module.exports = {
   getAllStudents,
   getSingleStudent,
   createStudent,
   updateStudent,
   deleteStudent,
-  uploadPicture,
 };
