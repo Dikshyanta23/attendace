@@ -11,18 +11,12 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   try {
-    const { name, phoneNumber, belt } = data;
-    const ultimateFormData = new FormData();
-    ultimateFormData.append("name", name);
-    ultimateFormData.append("phoneNumber", phoneNumber);
-    ultimateFormData.append("belt", belt);
-
-    if (String(phoneNumber).length !== 10) {
+    if (String(data.phoneNumber).length !== 10) {
       toast.error("Enter proper phone number");
       return null;
     }
 
-    await customFetch.post("/students", ultimateFormData);
+    await customFetch.post("/students", data);
     toast.success("Sucessfully created student");
     // const imageObject = await customFetch.post("/students/uploadImage");
     return null;
