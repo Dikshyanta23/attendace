@@ -8,6 +8,19 @@ import { useState } from "react";
 import { FormRow, FormRowSelect, SubmitBtn } from "../components";
 import { Form, redirect } from "react-router-dom";
 
+function compareByName(a, b) {
+  const nameA = a.name.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
+  const nameB = b.name.toUpperCase();
+
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  return 0;
+}
+
 export const loader = async () => {
   try {
     const { data } = await customFetch.get("/students");
@@ -23,6 +36,7 @@ const Attendance = () => {
   const [month, setMonth] = useState(0);
   const [year, setYear] = useState(0);
   const data = useLoaderData();
+  console.log(data);
   const students = data.students;
   const [attendance, setAttendance] = useState(
     students.map((student) => ({

@@ -32,10 +32,6 @@ const getAllAbsentees = async (req, res) => {
   const { search, sort } = req.query;
   let queryObject = {};
 
-  if (search) {
-    queryObject.reason = { $regex: search, $options: "i" };
-  }
-
   const sortOptions = {
     newest: "-createdAt",
     oldest: "createdAt",
@@ -44,16 +40,25 @@ const getAllAbsentees = async (req, res) => {
   };
   const sortKey = sortOptions[sort] || sortOptions["newest"];
 
-  const absentees = await Absentees.find(queryObject).sort(sortKey);
-  const newAbsentees = await Promise.all(
+  const absentees = await Absentees.find().sort(sortKey);
+  const modifiedAbsentee = await Promise.all(
     absentees.map(async (payment) => {
       const studentId = payment.student;
       const student = await Student.findById(studentId);
       const studentName = student.name;
-      console.log(studentName);
       return { studentName, ...payment.toObject() };
     })
   );
+  if (search) {
+    const regex = new RegExp(search, "i");
+    const newAbsentees = modifiedAbsentee.filter((item) => {
+      if (regex.test(item.studentName)) {
+        return item;
+      }
+    });
+    return res.status(StatusCodes.OK).json({ newAbsentees });
+  }
+  const newAbsentees = modifiedAbsentee;
   res.status(StatusCodes.OK).json({ newAbsentees });
 };
 

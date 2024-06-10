@@ -30,7 +30,7 @@ const getAllStudents = async (req, res) => {
   // const limit = Number(req.query.limit) || 10;
   // const skip = (page - 1) * limit;
 
-  const students = await Student.find(queryObject).sort(sortKey);
+  const students = await Student.find(queryObject).sort("name");
   // const totalStudents = await Student.countDocuments(queryObject);
   // const numOfPages = Math.ceil(totalStudents / limit);
   res.status(StatusCodes.OK).json({ students });
@@ -45,9 +45,26 @@ const getSingleStudent = async (req, res) => {
   res.status(StatusCodes.OK).json({ student });
 };
 
+function capitalizeFirstLetterAndAfterSpace(str) {
+  // Split the string by space
+  const words = str.split(" ");
+
+  // Capitalize the first letter of each word
+  const capitalizedWords = words.map((word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  });
+
+  // Join the words back together
+  const capitalizedString = capitalizedWords.join(" ");
+
+  return capitalizedString;
+}
 const createStudent = async (req, res) => {
   req.body.user = req.user.userId;
-  const student = await Student.create(req.body);
+  const { name, phoneNumber, belt } = req.body;
+  const realName = capitalizeFirstLetterAndAfterSpace(name);
+
+  const student = await Student.create({ name: realName, phoneNumber, belt });
   res.status(StatusCodes.CREATED).json({ student });
 };
 

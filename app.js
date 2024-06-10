@@ -15,8 +15,6 @@ const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
 const path = require("path");
 
-
-
 const connectDB = require("./db/connect");
 
 //router import

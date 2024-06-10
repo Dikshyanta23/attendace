@@ -5,32 +5,15 @@ const CustomError = require("../errors");
 
 const createPayment = async (req, res) => {
   const { id: studentId } = req.query;
-  const {
-    paymentYear,
-    paymentMonth,
-    paymentDay,
-    amount,
-    paymentforMonth,
-    paymentforYear,
-  } = req.body;
-  if (
-    !paymentYear ||
-    !paymentMonth ||
-    !paymentDay ||
-    !amount ||
-    !paymentforMonth ||
-    !paymentforYear
-  ) {
+  const { amount, paymentforMonth, paymentforYear } = req.body;
+  if (!amount || !paymentforMonth || !paymentforYear) {
     throw new CustomError.BadRequestError("Please provide all fields");
   }
-  const preSavedpayment = await Payment.findOne({
-    student: studentId,
-    paymentforMonth,
-    paymentforYear,
-  });
-  if (preSavedpayment) {
-    throw new CustomError.BadRequestError("Already a payment exists");
-  }
+  const currentDate = new Date();
+  const paymentYear = currentDate.getFullYear();
+  const paymentMonth = currentDate.getMonth();
+  const paymentDay = currentDate.getDate();
+
   const payment = await Payment.create({
     student: studentId,
     paymentYear,
@@ -51,7 +34,6 @@ const getAllPaymentsforYear = async (req, res) => {
       const studentId = payment.student;
       const student = await Student.findById(studentId);
       const studentName = student.name;
-      console.log(studentName);
       return { studentName, ...payment.toObject() };
     })
   );

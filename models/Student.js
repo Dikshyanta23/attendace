@@ -18,7 +18,17 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: {
-        values: ["white", "yellow", "blue", "purple", "brown", "black"],
+        values: [
+          "white",
+          "yellow",
+          "blue",
+          "purple",
+          "brown",
+          "black",
+          "orange",
+          "green",
+          "red",
+        ],
         message: "{{Value}} is not supported",
       },
     },

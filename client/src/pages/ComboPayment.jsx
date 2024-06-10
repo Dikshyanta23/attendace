@@ -37,7 +37,6 @@ const ComboPayment = () => {
     );
   };
   const handleSubmit = async () => {
-    console.log("Attendance:", attendance);
     const selectedMonth = month;
     const selectedYear = year;
     if (!selectedMonth || !selectedYear) {
@@ -65,23 +64,16 @@ const ComboPayment = () => {
       setMonth(0);
       return;
     }
-    const currentDate = new Date();
-    const currentDay = currentDate.getDate();
-    const currentMonth = currentDate.getMonth();
-    const currentYear = currentDate.getFullYear();
     try {
       const promises = attendance
         .filter((attendanceItem) => attendanceItem.amount >= 0)
-        .map((attendanceItem) =>
+        .map((attendanceItem) => {
           customFetch.post(`/payments?id=${attendanceItem.id}`, {
             amount: attendanceItem.amount,
             paymentforMonth: selectedMonth,
             paymentforYear: selectedYear,
-            paymentDay: currentDay,
-            paymentMonth: currentMonth,
-            paymentYear: currentYear,
-          })
-        );
+          });
+        });
 
       await Promise.all(promises);
       toast.success("Payment completed");

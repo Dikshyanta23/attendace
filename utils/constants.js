@@ -1,9 +1,13 @@
 export const BELT = {
   WHITE: "white",
+
   YELLOW: "yellow",
+  ORANGE: "orange",
+  GREEN: "green",
   BLUE: "blue",
   PURPLE: "purple",
   BROWN: "brown",
+  RED: "red",
   BLACK: "black",
 };
 
